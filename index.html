@@ -61,14 +61,14 @@
 <header>
   <div class="wrap">
     <h1>Prueba técnica Semi-Senior → Senior</h1>
-    <p>Versión B · 100 puntos · 90 minutos</p>
+    <p>Versión B · 100 puntos · 60 minutos</p>
   </div>
 </header>
 
 <div class="bar">
   <div class="wrap">
     <button id="btnStart">Comenzar prueba</button>
-    <span class="timer" id="timer">90:00</span>
+    <span class="timer" id="timer">60:00</span>
     <button class="secondary" id="btnDownload">Descargar respuestas</button>
     <button class="secondary" id="btnPrint">Imprimir / PDF</button>
     <span class="status" id="status">Las respuestas se guardan automáticamente en este navegador.</span>
@@ -118,18 +118,16 @@ const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;
 
 const BLOCKS = [
 {
-  id:"b1", title:"Bloque 1 — Diseño de solución", pts:15, time:"15 min",
+  id:"b1", title:"Bloque 1 — Diseño de solución", pts:15, time:"10 min",
   context:`<p><strong>Caso.</strong> La empresa necesita un servicio de alertas. Los dispositivos GPS envían en promedio 5.000 eventos por segundo (picos de 12.000). Cada cliente configura reglas como “exceso de velocidad &gt; 80 km/h” o “salida de una zona”. Cuando una regla se cumple, el cliente debe recibir la notificación por push, correo o SMS en menos de 30 segundos.</p>`,
   questions:[
-    {id:"1.1", pts:5, type:"text", rows:10, text:"Describe los componentes de tu solución y el flujo de un evento desde que llega hasta que se notifica. Indica qué tecnología usarías en cada pieza y por qué. (Puedes dibujar el diagrama en texto o con flechas.)"},
-    {id:"1.2", pts:3, type:"text", text:"¿Cómo garantizas que una alerta no se pierda y que el cliente no la reciba duplicada?"},
-    {id:"1.3", pts:3, type:"text", text:"El proveedor de SMS deja de responder durante 20 minutos. ¿Qué pasa en tu diseño con las alertas de ese periodo y con el resto del sistema?"},
-    {id:"1.4", pts:2, type:"text", text:"Nombra 4 métricas que pondrías en el tablero de este servicio y el umbral que te haría actuar en cada una."},
-    {id:"1.5", pts:2, type:"text", text:"Tienes 4 semanas para salir a producción. ¿Qué dejas fuera de la primera versión y qué riesgo asumes al hacerlo?"}
+    {id:"1.1", pts:7, type:"text", rows:10, text:"Describe los componentes de tu solución y el flujo de un evento desde que llega hasta que se notifica. Indica qué tecnología usarías en cada pieza y por qué. (Puedes dibujar el diagrama en texto o con flechas.)"},
+    {id:"1.2", pts:4, type:"text", text:"¿Cómo garantizas que una alerta no se pierda y que el cliente no la reciba duplicada?"},
+    {id:"1.3", pts:4, type:"text", text:"El proveedor de SMS deja de responder durante 20 minutos. ¿Qué pasa en tu diseño con las alertas de ese periodo y con el resto del sistema?"}
   ]
 },
 {
-  id:"b2", title:"Bloque 2 — Code review", pts:15, time:"12 min",
+  id:"b2", title:"Bloque 2 — Code review", pts:15, time:"8 min",
   context:`<p>Un desarrollador junior abrió este pull request. La función la ejecuta un job programado cada minuto y cobra las facturas vencidas de un cliente.</p>
 <pre><code>${esc(`// Job programado: se ejecuta cada minuto
 async function cobrarFacturasVencidas(clienteId) {
@@ -154,14 +152,13 @@ async function cobrarFacturasVencidas(clienteId) {
   return true;
 }`)}</code></pre>`,
   questions:[
-    {id:"2.1", pts:9, type:"table", rows:6, cols:["Problema","Consecuencia en producción","Severidad"], sev:true,
-      text:"Identifica al menos 6 problemas. Para cada uno indica qué está mal, qué consecuencia tendría en producción y su severidad. (1,5 pts por problema bien explicado.)"},
-    {id:"2.2", pts:4, type:"code", text:"Reescribe la función corregida en tu lenguaje. No hace falta que compile; sí que se entienda cómo resuelves los problemas de severidad alta."},
-    {id:"2.3", pts:2, type:"text", rows:5, text:"Escribe el comentario que dejarías en el PR sobre el problema más grave, tal como se lo enviarías al junior."}
+    {id:"2.1", pts:12, type:"table", rows:6, cols:["Problema","Consecuencia en producción","Severidad"], sev:true,
+      text:"Identifica al menos 6 problemas. Para cada uno indica qué está mal, qué consecuencia tendría en producción y su severidad. (2 pts por problema bien explicado.)"},
+    {id:"2.2", pts:3, type:"text", rows:5, text:"Escribe el comentario que dejarías en el PR sobre el problema más grave, tal como se lo enviarías al junior, incluyendo cómo corregirlo."}
   ]
 },
 {
-  id:"b3", title:"Bloque 3 — Incidente en producción", pts:15, time:"13 min",
+  id:"b3", title:"Bloque 3 — Incidente en producción", pts:15, time:"9 min",
   context:`<p><strong>Situación.</strong> Viernes, 6:10 p. m. A las 4:00 p. m. se desplegó la versión 2.14 del API principal. Desde las 5:30 p. m. ves lo siguiente:</p>
 <table><thead><tr><th>Señal</th><th>Antes</th><th>Ahora</th></tr></thead><tbody>
 <tr><td>Latencia p95 del API</td><td>220 ms</td><td>4,1 s</td></tr>
@@ -170,14 +167,13 @@ async function cobrarFacturasVencidas(clienteId) {
 <tr><td>Conexiones activas del pool</td><td>20 de 50</td><td>50 de 50</td></tr></tbody></table>
 <p>En los logs se repite: <code>Timeout acquiring connection from pool</code>. La versión 2.14 incluyó tres cambios: un nuevo endpoint de reporte mensual por cliente, la actualización del ORM a una versión mayor y una migración que agregó la columna <code>zona_id</code> a la tabla <code>eventos</code> (40 millones de filas). Tu líder está de vacaciones; eres la persona de mayor nivel conectada.</p>`,
   questions:[
-    {id:"3.1", pts:4, type:"text", text:"Enumera en orden lo que haces en los primeros 15 minutos. Incluye a quién comunicas qué."},
-    {id:"3.2", pts:4, type:"text", text:"Plantea al menos 3 hipótesis de la causa, ordénalas por probabilidad y di cómo confirmarías o descartarías cada una."},
-    {id:"3.3", pts:3, type:"text", text:"¿Haces rollback a la 2.13 o un hotfix? Explica qué revisarías antes de decidir, teniendo en cuenta la migración."},
-    {id:"3.4", pts:4, type:"text", text:"El incidente se resolvió. Escribe 3 acciones preventivas para el postmortem, cada una con un responsable sugerido (rol) y cómo sabrías que funcionó."}
+    {id:"3.1", pts:5, type:"text", text:"Enumera en orden lo que haces en los primeros 15 minutos. Incluye a quién comunicas qué."},
+    {id:"3.2", pts:6, type:"text", text:"Plantea al menos 3 hipótesis de la causa, ordénalas por probabilidad y di cómo confirmarías o descartarías cada una."},
+    {id:"3.3", pts:4, type:"text", text:"¿Haces rollback a la 2.13 o un hotfix? Explica qué revisarías antes de decidir, teniendo en cuenta la migración."}
   ]
 },
 {
-  id:"b4", title:"Bloque 4 — Datos y rendimiento", pts:15, time:"13 min",
+  id:"b4", title:"Bloque 4 — Datos y rendimiento", pts:15, time:"9 min",
   context:`<p>Esta consulta alimenta el reporte diario de excesos de velocidad. Tarda 38 segundos. La tabla <code>eventos</code> tiene 40 millones de filas y solo dos índices: la llave primaria <code>id</code> y <code>vehiculo_id</code>.</p>
 <pre><code>${esc(`SELECT v.placa, COUNT(*) AS excesos
 FROM eventos e
@@ -188,25 +184,23 @@ WHERE DATE(e.fecha) = '2026-11-01'
 GROUP BY v.placa
 ORDER BY excesos DESC;`)}</code></pre>`,
   questions:[
-    {id:"4.1", pts:5, type:"text", text:"Explica por qué es lenta y qué índice(s) crearías. Justifica el orden de las columnas."},
-    {id:"4.2", pts:3, type:"code", rows:8, text:"Reescribe la consulta para que pueda aprovechar los índices."},
-    {id:"4.3", pts:4, type:"text", text:"500 clientes abren este reporte entre las 7:00 y las 8:00 a. m. Aun con el índice, la base de datos se satura en esa hora. Propón 2 alternativas de arquitectura y la desventaja de cada una."},
-    {id:"4.4", pts:3, type:"text", text:"Otro endpoint devuelve 2.000 vehículos con su última posición y tarda 9 segundos. El código hace una consulta para la lista y luego una consulta por vehículo. ¿Cómo se llama este problema, cómo lo detectarías en un sistema real y cómo lo corriges?"}
+    {id:"4.1", pts:6, type:"text", text:"Explica por qué es lenta y qué índice(s) crearías. Justifica el orden de las columnas."},
+    {id:"4.2", pts:4, type:"code", rows:8, text:"Reescribe la consulta para que pueda aprovechar los índices."},
+    {id:"4.3", pts:5, type:"text", text:"500 clientes abren este reporte entre las 7:00 y las 8:00 a. m. Aun con el índice, la base de datos se satura en esa hora. Propón 2 alternativas de arquitectura y la desventaja de cada una."}
   ]
 },
 {
-  id:"b5", title:"Bloque 5 — Pruebas, seguridad y calidad", pts:15, time:"10 min",
+  id:"b5", title:"Bloque 5 — Pruebas, seguridad y calidad", pts:15, time:"8 min",
   context:"",
   questions:[
-    {id:"5.1", pts:5, type:"table", rows:7, cols:["km","Tipo de vehículo","¿Festivo?","Resultado esperado","Qué valida este caso"],
-      text:"La función <code>calcularTarifa(km, tipoVehiculo, esFestivo)</code> sigue estas reglas: $1.200 por km; si el vehículo es camión se multiplica por 1,5; si es festivo se suma 20 %; la tarifa mínima es $15.000; si <code>km</code> es negativo debe lanzar un error. Escribe al menos 6 casos de prueba que cubran los límites y las combinaciones importantes."},
-    {id:"5.2", pts:4, type:"text", text:"Un usuario autenticado del cliente A llama <code>GET /api/vehiculos/{id}/posiciones</code>, cambia el <code>id</code> en la URL y ve las posiciones de un vehículo del cliente B. ¿Cómo se llama esta vulnerabilidad, cómo la corriges en el código y cómo evitarías que se repita en otros endpoints del equipo?"},
-    {id:"5.3", pts:3, type:"text", text:"Un proyecto no tiene pruebas unitarias y tiene 40 pruebas end-to-end que tardan 50 minutos y fallan al azar 1 de cada 5 ejecuciones. Propón una estrategia de pruebas para los próximos 3 meses."},
-    {id:"5.4", pts:3, type:"text", text:"Descubres que hace 3 meses alguien subió al repositorio la API key de un proveedor de mapas. Enumera los pasos que sigues, en orden."}
+    {id:"5.1", pts:6, type:"table", rows:6, cols:["km","Tipo de vehículo","¿Festivo?","Resultado esperado","Qué valida este caso"],
+      text:"La función <code>calcularTarifa(km, tipoVehiculo, esFestivo)</code> sigue estas reglas: $1.200 por km; si el vehículo es camión se multiplica por 1,5; si es festivo se suma 20 %; la tarifa mínima es $15.000; si <code>km</code> es negativo debe lanzar un error. Escribe 6 casos de prueba que cubran los límites y las combinaciones importantes."},
+    {id:"5.2", pts:5, type:"text", text:"Un usuario autenticado del cliente A llama <code>GET /api/vehiculos/{id}/posiciones</code>, cambia el <code>id</code> en la URL y ve las posiciones de un vehículo del cliente B. ¿Cómo se llama esta vulnerabilidad, cómo la corriges en el código y cómo evitarías que se repita en otros endpoints del equipo?"},
+    {id:"5.3", pts:4, type:"text", text:"Descubres que hace 3 meses alguien subió al repositorio la API key de un proveedor de mapas. Enumera los pasos que sigues, en orden."}
   ]
 },
 {
-  id:"b6", title:"Bloque 6 — Uso de IA en el desarrollo", pts:15, time:"15 min",
+  id:"b6", title:"Bloque 6 — Uso de IA en el desarrollo", pts:15, time:"10 min",
   context:`<p>Un compañero le pidió a un asistente de IA: <em>“Escribe un middleware en Node.js que valide el token JWT de las peticiones”</em>. Pegó la respuesta tal cual en un pull request:</p>
 <pre><code>${esc(`import jwt from "jsonwebtoken";
 
@@ -223,31 +217,28 @@ export function auth(req, res, next) {
   next();
 }`)}</code></pre>`,
   questions:[
-    {id:"6.1", pts:4, type:"text", rows:8, text:"Revisa el código generado por la IA. Identifica al menos 4 problemas y explica el riesgo de cada uno."},
-    {id:"6.2", pts:1, type:"text", rows:4, text:"¿Qué le habrías pedido distinto a la IA, o qué habrías hecho antes de abrir el PR, para no llegar a este resultado?"},
-    {id:"6.3", pts:1, type:"mc", text:"Un asistente de IA te sugiere instalar un paquete llamado <code>fast-geo-utils-pro</code> que nunca habías visto. ¿Qué haces primero?",
+    {id:"6.1", pts:5, type:"text", rows:8, text:"Revisa el código generado por la IA. Identifica al menos 4 problemas y explica el riesgo de cada uno."},
+    {id:"6.2", pts:1, type:"mc", text:"Un asistente de IA te sugiere instalar un paquete llamado <code>fast-geo-utils-pro</code> que nunca habías visto. ¿Qué haces primero?",
       options:["Lo instalo: si la IA lo sugiere, debe ser popular.","Le pido a la misma IA que confirme que el paquete es seguro.","Verifico en el registro oficial que exista, quién lo mantiene, su actividad, descargas y licencia, porque puede ser un paquete inventado o malicioso.","Copio el código fuente del paquete directamente a nuestro repositorio."]},
-    {id:"6.4", pts:1, type:"mc", text:"¿Cuál de estos datos NO debes pegar en un asistente de IA que no esté aprobado por la empresa?",
+    {id:"6.3", pts:1, type:"mc", text:"¿Cuál de estos datos NO debes pegar en un asistente de IA que no esté aprobado por la empresa?",
       options:["Un mensaje de error de compilación sin datos sensibles.","Un algoritmo de ordenamiento genérico.","La cadena de conexión de producción o un archivo con datos reales de clientes.","Un fragmento de la documentación pública de un framework."]},
-    {id:"6.5", pts:1, type:"mc", text:"La IA generó 300 líneas de pruebas unitarias y todas pasan en verde. ¿Qué es lo más importante revisar?",
+    {id:"6.4", pts:1, type:"mc", text:"La IA generó 300 líneas de pruebas unitarias y todas pasan en verde. ¿Qué es lo más importante revisar?",
       options:["Que la cobertura supere el 80 %.","Que las aserciones validen el comportamiento esperado según el requerimiento y no solo copien lo que hace el código actual.","Que los nombres de las pruebas estén en inglés.","Que las pruebas se ejecuten en menos de un segundo."]},
-    {id:"6.6", pts:1, type:"mc", text:"Un bug llega a producción desde código generado por IA que pasó el code review. ¿Quién es responsable de ese código?",
+    {id:"6.5", pts:1, type:"mc", text:"Un bug llega a producción desde código generado por IA que pasó el code review. ¿Quién es responsable de ese código?",
       options:["La herramienta de IA o su proveedor.","Solo el revisor que aprobó el PR.","El autor del PR y el revisor, igual que con cualquier otro código del equipo.","Nadie, porque el código no lo escribió una persona."]},
-    {id:"6.7", pts:1, type:"mc", text:"¿Cuál prompt tiene más probabilidad de producir un refactor útil?",
+    {id:"6.6", pts:1, type:"mc", text:"¿Cuál prompt tiene más probabilidad de producir un refactor útil?",
       options:["“Mejora este código.”","“Refactoriza esta función a buenas prácticas.”","“Refactoriza esta función de Node 20 para separar el acceso a datos de la lógica de negocio. Mantén la firma pública, no agregues dependencias y escribe pruebas para los casos: lista vacía, cliente inexistente y error de BD.”","“Reescribe todo el módulo como lo haría un experto.”"]},
-    {id:"6.8", pts:1, type:"mc", text:"La IA afirma con seguridad que existe el método <code>orm.bulkUpsertSafe()</code>, pero no aparece en la documentación de la versión que usa el proyecto. ¿Qué es lo más probable?",
+    {id:"6.7", pts:1, type:"mc", text:"La IA afirma con seguridad que existe el método <code>orm.bulkUpsertSafe()</code>, pero no aparece en la documentación de la versión que usa el proyecto. ¿Qué es lo más probable?",
       options:["La documentación oficial está desactualizada.","Es una alucinación o corresponde a otra librería o versión; hay que verificarlo en la fuente.","Es un método privado que sí se puede usar sin riesgo.","Hay que actualizar el ORM a la última versión para tenerlo."]},
-    {id:"6.9", pts:4, type:"text", rows:8, text:"Tu squad va a adoptar asistentes de IA para programar. Escribe 4 reglas concretas para el equipo: qué se permite, qué se revisa siempre, qué no se comparte y cómo medirías si la IA está ayudando de verdad."}
+    {id:"6.8", pts:4, type:"text", rows:6, text:"Tu squad va a adoptar asistentes de IA para programar. Escribe 3 reglas concretas para el equipo, y di cómo medirías si la IA está ayudando de verdad."}
   ]
 },
 {
-  id:"b7", title:"Bloque 7 — Criterio y liderazgo técnico", pts:10, time:"12 min",
+  id:"b7", title:"Bloque 7 — Criterio y liderazgo técnico", pts:10, time:"6 min",
   context:"",
   questions:[
-    {id:"7.1", pts:3, type:"text", text:"El Product Owner pide una funcionalidad para dentro de 1 semana porque se la prometió a un cliente grande. Tu estimación para hacerla bien es de 3 semanas. ¿Qué le respondes? Presenta al menos 2 opciones con lo que gana y lo que arriesga cada una."},
-    {id:"7.2", pts:3, type:"text", text:"Hay un módulo legado sin pruebas que nadie quiere tocar y que genera la mitad de los bugs del trimestre. Quieres que la gerencia apruebe dedicar el 20 % del sprint a sanearlo. ¿Qué datos llevas a esa reunión y cómo propones medir el resultado?"},
-    {id:"7.3", pts:2, type:"text", rows:8, text:"El equipo debe elegir entre usar una cola de mensajes gestionada por el proveedor de nube o montar y operar RabbitMQ propio. Escribe un registro de decisión (ADR) corto con: contexto, opciones, decisión, consecuencias."},
-    {id:"7.4", pts:2, type:"text", rows:5, text:"Un desarrollador junior repite los mismos errores en sus pull requests desde hace un mes. ¿Qué haces, en concreto, para que mejore?"}
+    {id:"7.1", pts:5, type:"text", text:"El Product Owner pide una funcionalidad para dentro de 1 semana porque se la prometió a un cliente grande. Tu estimación para hacerla bien es de 3 semanas. ¿Qué le respondes? Presenta al menos 2 opciones con lo que gana y lo que arriesga cada una."},
+    {id:"7.2", pts:5, type:"text", rows:5, text:"Un desarrollador junior repite los mismos errores en sus pull requests desde hace un mes. ¿Qué haces, en concreto, para que mejore?"}
   ]
 }
 ];
@@ -262,7 +253,7 @@ function render(){
     tot += b.pts;
     sum.insertAdjacentHTML("beforeend",`<tr><td>${i+1}</td><td>${b.title.split("— ")[1]}</td><td>${b.pts}</td><td>${b.time}</td></tr>`);
   });
-  sum.insertAdjacentHTML("beforeend",`<tr><th></th><th>Total</th><th>${tot}</th><th>90 min</th></tr>`);
+  sum.insertAdjacentHTML("beforeend",`<tr><th></th><th>Total</th><th>${tot}</th><th>60 min</th></tr>`);
 
   const host = document.getElementById("blocks");
   BLOCKS.forEach(b=>{
@@ -334,8 +325,8 @@ function getStart(){
 function tick(){
   const start = getStart() || window.__start;
   const el = document.getElementById("timer");
-  if (!start){ el.textContent = "90:00"; return; }
-  const left = 90*60 - Math.floor((Date.now()-start)/1000);
+  if (!start){ el.textContent = "60:00"; return; }
+  const left = 60*60 - Math.floor((Date.now()-start)/1000);
   const a = Math.abs(left), m = String(Math.floor(a/60)).padStart(2,"0"), s = String(a%60).padStart(2,"0");
   el.textContent = (left<0?"+":"") + m + ":" + s;
   el.classList.toggle("late", left<0);
